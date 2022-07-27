@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="339.89999"
+   height="300"
+   viewBox="0 0 339.89999 300"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="fail.svg"
+   inkscape:export-filename="fail.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.83398438"
+     inkscape:cx="399.28805"
+     inkscape:cy="175.06323"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1072"
+     inkscape:window-y="476"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="1.6957315"
+       y="1.6957315"
+       width="293.36154"
+       height="503.63226"
+       id="rect63" />
+    <rect
+       x="1.6957315"
+       y="1.6957315"
+       width="293.36154"
+       height="503.63226"
+       id="rect574" />
+    <rect
+       x="1.6957315"
+       y="1.6957315"
+       width="293.36154"
+       height="503.63226"
+       id="rect580" />
+  </defs>
+  <g
+     inkscape:label="fail"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(-0.1)">
+    <text
+       xml:space="preserve"
+       id="text61"
+       style="font-size:400px;white-space:pre;shape-inside:url(#rect63);display:inline;fill:#8e99b1"
+       transform="matrix(-1,0,0,1,229.68872,-73.943794)"><tspan
+         x="1.6953125"
+         y="366.62744"
+         id="tspan198"><tspan
+           style="fill:#d40000"
+           id="tspan196">F</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text578"
+       style="font-size:400px;white-space:pre;shape-inside:url(#rect580);display:inline;fill:#8e99b1"
+       transform="translate(112.28571,-73.142857)"><tspan
+         x="1.6953125"
+         y="366.62744"
+         id="tspan202"><tspan
+           style="fill:#d40000"
+           id="tspan200">F</tspan></tspan></text>
+  </g>
+  <g
+     inkscape:label="icon"
+     inkscape:groupmode="layer"
+     id="g572"
+     style="display:none"
+     transform="translate(-0.1)">
+    <text
+       xml:space="preserve"
+       id="text562"
+       style="font-size:400px;white-space:pre;shape-inside:url(#rect574);display:inline;fill:#8e99b1"><tspan
+         x="1.6953125"
+         y="366.62744"
+         id="tspan206"><tspan
+           style="fill:#d40000"
+           id="tspan204">F</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:133.333px;white-space:pre;inline-size:519.961;display:inline;fill:#d40000"
+       x="230.61948"
+       y="191.61766"
+       id="text566"
+       inkscape:label="fail"
+       transform="translate(3.5971899,158.27634)"><tspan
+         x="230.61948"
+         y="191.61766"
+         id="tspan208">ails</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:133.333px;white-space:pre;inline-size:519.961;display:inline;fill:#d40000"
+       x="230.61948"
+       y="191.61766"
+       id="text570"
+       inkscape:label="finegold"><tspan
+         x="230.61948"
+         y="191.61766"
+         id="tspan210">inegold</tspan></text>
+  </g>
+</svg>
