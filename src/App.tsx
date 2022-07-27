@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { analyze } from "./GameParser";
+import { analyze, Game } from "./GameParser";
 import {
   Avatar,
   Box,
@@ -148,20 +148,20 @@ interface CategoryInterface {
   exampleBoard?: string;
   exampleVideo?: string;
   numMade?: number;
-  addToCategory?: () => void;
+  addToCategory?: (game: Game) => void;
   resetCategory?: () => void;
 }
 type CategoryProps = { category: CategoryInterface; };
 function Category({ category }: CategoryProps) {
   const [arr, setArr] = useState(new Array<React.ReactNode>());
-  function createChild() {
+  function createChild(game: Game) {
     const src = "fail.svg"
-    return <div className={"failContainer"}> <img src={src} key={Date.now()} className={category.kind + " icon"} /></div>
+    return <a href={game.site} target={"_blank"} className={"failContainer"}> <img src={src} key={Date.now()} className={category.kind + " icon"} /></a>
   }
   useEffect(() => {
-    category.addToCategory = () => {
+    category.addToCategory = (game: Game) => {
       category.numMade = category.numMade ? category.numMade + 1 : 1;
-      setArr([...arr, createChild()]);
+      setArr([...arr, createChild(game)]);
     }
     category.resetCategory = () => {
       category.numMade = 0;

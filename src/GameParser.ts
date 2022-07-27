@@ -48,10 +48,10 @@ function game(gameStr: string) {
   //   f3.addToCategory!()
   // }
   if (game.myMoves.find(s => s === "f3")) {
-    f3.addToCategory!()
+    f3.addToCategory!(game)
   }
 }
-class Game {
+export class Game {
   event: string;
   site: string;
   white: string;
