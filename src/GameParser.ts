@@ -1,13 +1,22 @@
 import { TurnRightSharp } from "@mui/icons-material";
 import { config } from "dotenv";
-import { analyzedGame, f3 } from "./App";
+import { analyzedGame } from "./App";
+import { drew, f3, f3ConfuseOnTime, f3Drew, f3Mate, f3StillWon, lost, opponentPlayedF3, opponentPlayedF3Lost, opponentPlayedF3Won, won } from "./Categories";
 config();
-const max = 10;
+const max = 500;
 let myUsername: string
-export function analyze(username: string) {
+export async function analyze(username: string) {
+
+
+
+  const userDetailsF = await fetch("https://lichess.org/api/user/" + username)
+  const userDetails: { count: { rated: number } } = await userDetailsF.json();
+
+  console.log(userDetails.count.rated);
+
   myUsername = username;
   const headers = {
-    Authorization: "Bearer " + process.env.REACT_APP_lichessToken,
+    // Authorization: "Bearer " + process.env.REACT_APP_lichessToken,
     // "Content-Type": "application/x-ndjson",
     // Accept: "application/x-ndjson",
   };
@@ -44,11 +53,48 @@ function game(gameStr: string) {
   if (!game.event.includes("Rated")) {
     alert("got an unrated game")
   }
-  // if (game.moves.includes(" f3")) {
-  //   f3.addToCategory!()
-  // }
-  if (game.myMoves.find(s => s === "f3")) {
+  const dynamicF3: DynamicMove = { row: 3, col: "f" };
+  if (game.didIPlay(dynamicF3)) {
+
     f3.addToCategory!(game)
+    if (game.myMoves[game.myMoves.length - 1] === game.convertDynamic(dynamicF3, myUsername)) {
+      if (game.didLose) {
+
+      } else if (game.termination === "Time forfeit") {
+        f3ConfuseOnTime.addToCategory!(game)
+      } else {
+        f3Mate.addToCategory!(game);
+      }
+    }
+    if (game.didWin) {
+
+      f3StillWon.addToCategory!(game);
+    }
+    if (game.didDraw) {
+      f3Drew.addToCategory!(game);
+    }
+  }
+  if (game.didOpponentPlay(dynamicF3, true)) {
+    opponentPlayedF3.addToCategory!(game);
+    if (game.didWin) {
+      opponentPlayedF3Won.addToCategory!(game);
+    } else if (!game.didDraw) {
+      opponentPlayedF3Lost.addToCategory!(game);
+    }
+  }
+  switch (game.perspectiveResult) {
+    case "i drew": {
+      drew.addToCategory!(game);
+      break;
+    } case "i lost": {
+      lost.addToCategory!(game);
+      break;
+    }
+    case "i won": {
+      won.addToCategory!(game);
+      break;
+    }
+
   }
 }
 export class Game {
@@ -82,13 +128,67 @@ export class Game {
     }
   }
 
+  get didWin(): boolean {
+    return (this.result === "1-0" && this.isWhite) || (this.result === "0-1" && !this.isWhite)
+  }
+  get didDraw(): boolean {
+    return this.result === "1/2-1/2";
+  }
+  get didLose(): boolean {
+    return !this.didDraw;
+  }
   get myMoves(): string[] {
-    return myUsername === this.black ? this.blackMoves : this.whiteMoves;
+    return this.isWhite ? this.whiteMoves : this.blackMoves;
   }
   get opponentMoves(): string[] {
-    return myUsername === this.white ? this.blackMoves : this.whiteMoves;
+    return this.isWhite ? this.blackMoves : this.whiteMoves;
+  }
+  get isWhite(): boolean {
+    return myUsername === this.white;
+  }
+  get opponentUsername(): string {
+    return this.isWhite ? this.black : this.white;
   }
 
+  get perspectiveResult(): "i won" | "i lost" | "i drew" {
+    return this.didWin ? "i won" : this.didLose ? "i lost" : "i drew";
+  }
+  didIPlay(move: string | DynamicMove, exact: boolean = false) {
+    // check if move is a string or dynamic move
+    if (typeof move === "string") {
+      return this.didPlay(move, this.myMoves, exact);
+    }
+
+    return this.didPlay(this.convertDynamic(move, myUsername), this.myMoves, exact);
+  }
+
+  didOpponentPlay(move: string | DynamicMove, exact: boolean = false) {
+    // check if move is a string or dynamic move
+    if (typeof move === "string") {
+      return this.didPlay(move, this.opponentMoves, exact);
+    }
+
+    return this.didPlay(this.convertDynamic(move, this.opponentUsername), this.opponentMoves, exact);
+  }
+
+  didPlay(move: string, moves: string[], exact: boolean) {
+    return moves.find(m => (exact ? m === move : m.includes(move)))
+  }
+  convertDynamic(move: DynamicMove, player: string) {
+    if (player === this.white) {
+      return move.col + "" + move.row;
+    }
+    const a = Math.abs(move.row - 8) + 1
+    return move.col + "" + a;
+  }
+}
+
+type Column = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h"
+type Row = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+//will adjust to fit player
+interface DynamicMove {
+  col: Column;
+  row: Row;
 }
 
 type Termination =
