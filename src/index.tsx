@@ -49,12 +49,14 @@ function MyApp() {
         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Box>
-    <App></App></>
+    
+    <App></App>
+    </>
   );
 }
 
 export function ToggleColorMode() {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {

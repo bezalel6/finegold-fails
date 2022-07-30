@@ -24,6 +24,7 @@ import {
   Stack,
   Switch,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Info } from "@mui/icons-material";
@@ -33,6 +34,8 @@ import { allCategories, CategoryInterface, outerCategoriesArr, OuterCategory } f
 import { Rarity } from "./Rarity";
 import { Ctrl } from "./Auth";
 import { TransitionProps } from "@mui/material/transitions";
+import { fontSize } from "@mui/system";
+import { Scales } from "./Scales";
 let numAnalyzed: number, setNumAnalyzed: (num: number) => any;
 let createdChildren: Array<React.ReactNode> = [];
 function createSummary(): React.ReactNode {
@@ -73,15 +76,17 @@ function App() {
     <>
       <CssBaseline />
       <main>
-        <img src="icon.svg" className="App-logo" />
-
+        <Scales></Scales>
+        {/* <img src="icon.svg" className="App-logo" />
+        <h1 className="App-header">Finegold sins</h1>
+        <h3>How is your karma these days? you better be on ben's good side or he'll have to beat you <Tooltip title={<h2>to death</h2>} followCursor><div className="inline interest"> old fashion style</div></Tooltip></h3>
         <form
           className="form"
           onSubmit={(e) => {
             e.preventDefault();
 
             resetEverything();
-            analyze((document.getElementById('username') as HTMLInputElement).value);
+            analyze((document.getElementById('username') as HTMLInputElement).value, ct.accessContext?.token?.value);
           }}
         >
           <TextField
@@ -101,21 +106,20 @@ function App() {
         </form>
 
         {summary}
-        <div className="categories">
+        <div className="categories grid">
           {outerCategoriesArr.map(outer => {
-            return <div key={outer.description} className="outer-category">
+            return <div key={outer.description} className="outer-category grid">
 
-              <h2>{outer.description}</h2>
+              <h2 className="grid-header">{outer.description}</h2>
               {allCategories.filter(cat => cat.outerCategory === outer).map(c => <Category key={c.name} category={c}></Category>)}
             </div>
           })}
-        </div>
+        </div> */}
       </main>
     </>
   );
 
 }
-
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -136,14 +140,21 @@ function LoginComponent({ ct }: { ct: Ctrl }) {
   const handleClose = () => {
     setOpen(false);
   };
+  const [loggedIn, setLoggedIn] = useState(false)
+  function redraw() {
+    setLoggedIn(!!ct.accessContext);
 
+  }
+  ct.redraw = redraw;
   return (
     <div>
-      <Button variant="outlined" onClick={() => {
-        ct.login();
-      }}>
-        Login with lichess
-      </Button>
+      {loggedIn ?
+        <p style={{ display: "inline-block" }}>logged in. <Button onClick={() => { ct.logout() }}>Log out</Button></p> : <Button variant="outlined" onClick={() => {
+          ct.login();
+        }}>
+          Login with lichess
+        </Button>}
+
       <IconButton onClick={handleClickOpen}><InfoIcon></InfoIcon></IconButton>
       <Dialog
         open={open}

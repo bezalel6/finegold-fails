@@ -1,0 +1,25 @@
+/* .scales-container {
+    position: relative;
+    height: 600px;
+}
+.scales-container * {
+    position: absolute;
+}
+.scales {
+    transform-origin: 50% 20%;
+    transform: rotate(0.01turn);
+}
+.scale {
+}
+.scale.right {
+    transform: translate(100px);
+    right: 0;
+}
+.poll {
+} */
+/* .hide {
+    display: none;
+} */
+.myCan {
+    /* position: absolute; */
+}

@@ -5,7 +5,7 @@ import { drew, f3, f3ConfuseOnTime, f3Drew, f3Mate, f3StillWon, lost, opponentPl
 config();
 const max = 500;
 let myUsername: string
-export async function analyze(username: string) {
+export async function analyze(username: string, accessToken: string | undefined) {
 
 
 
@@ -15,11 +15,17 @@ export async function analyze(username: string) {
   console.log(userDetails.count.rated);
 
   myUsername = username;
-  const headers = {
+  let headers = {
     // Authorization: "Bearer " + process.env.REACT_APP_lichessToken,
     // "Content-Type": "application/x-ndjson",
     // Accept: "application/x-ndjson",
   };
+  if (accessToken) {
+    headers = {
+      ...headers,
+      Authorization: "Bearer " + accessToken
+    }
+  }
 
   fetch(`https://lichess.org/api/games/user/${username}?max=${max}&rated=true`, {
     headers,

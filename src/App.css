@@ -6,6 +6,7 @@
   --uncommon: green;
   --epic: rgb(225, 71, 225);
   --legendary: gold;
+  --scales-width: ;
 }
 main {
   display: block;
@@ -23,24 +24,34 @@ main {
 .categories {
   overflow: hidden;
   margin-top: 10px;
-  display: grid;
-  grid-template-columns: auto auto;
 }
 .category {
   min-width: 400px;
   max-width: 400px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
   padding: 20px;
-  font-size: 30px;
+  /* font-size: 30px; */
   text-align: center;
 }
+.interest {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.grid {
+  display: grid;
+  /* grid-template-columns: auto auto; */
+  grid-template-areas: "header header";
+  align-items: start;
+}
+.grid-header {
+  grid-area: header;
+}
+
 .outer-category {
   /* grid-template-areas: "head head"; */
   text-align: center;
 }
-.grid-header {
-  grid-area: head;
-}
+
 .App-logo {
   height: 40vmin;
   width: 100%;
@@ -84,17 +95,6 @@ main {
   color: var(--legendary);
 }
 
-.fail_icon {
-  /* transform: scale(0.5, 0.5); */
-  /* border:2px black solid; */
-  /* margin: auto; */
-
-  /* max-width: 200px; */
-  /* width: 150px; */
-  /* height:150px; */
-  /* margin-left: 10px; */
-  /* display: inline-block; */
-}
 .grayout {
   filter: var(--disabled-filter);
   pointer-events: none;
@@ -110,7 +110,9 @@ main {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.inline {
+  display: inline-block;
+}
 .App-header {
   /* background-color: #282c34;
   min-height: 100vh;
