@@ -8,6 +8,9 @@
   --legendary: gold;
   --scales-width: ;
 }
+* {
+  cursor: url("https://developer.mozilla.org/en-US/docs/Web/CSS/cursor/grab.gif"), auto;
+}
 main {
   display: block;
   justify-items: center;

@@ -1,8 +1,6 @@
 import { TurnRightSharp } from "@mui/icons-material";
-import { config } from "dotenv";
 import { analyzedGame } from "./App";
 import { drew, f3, f3ConfuseOnTime, f3Drew, f3Mate, f3StillWon, lost, opponentPlayedF3, opponentPlayedF3Lost, opponentPlayedF3Won, won } from "./Categories";
-config();
 const max = 500;
 let myUsername: string
 export async function analyze(username: string, accessToken: string | undefined) {
@@ -54,11 +52,8 @@ export async function analyze(username: string, accessToken: string | undefined)
 }
 function game(gameStr: string) {
   //   console.log("got", game, new Game(game));
-  analyzedGame();
   const game = new Game(gameStr);
-  if (!game.event.includes("Rated")) {
-    alert("got an unrated game")
-  }
+  analyzedGame();
   const dynamicF3: DynamicMove = { row: 3, col: "f" };
   if (game.didIPlay(dynamicF3)) {
 
@@ -113,7 +108,9 @@ export class Game {
   moves: string;
   whiteMoves: string[];
   blackMoves: string[];
+  pgn:string;
   constructor(pgn: string) {
+    this.pgn = pgn;
     this.event = pgnProperty("Event", pgn);
     this.site = pgnProperty("Site", pgn);
     this.white = pgnProperty("White", pgn);
