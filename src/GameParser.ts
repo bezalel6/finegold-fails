@@ -110,25 +110,35 @@ export class Game {
   blackMoves: string[];
   pgn:string;
   constructor(pgn: string) {
-    this.pgn = pgn;
-    this.event = pgnProperty("Event", pgn);
-    this.site = pgnProperty("Site", pgn);
-    this.white = pgnProperty("White", pgn);
-    this.black = pgnProperty("Black", pgn);
-    this.result = pgnProperty("Result", pgn) as GameResult;
-    this.termination = pgnProperty("Termination", pgn) as Termination;
-    this.moves = pgn.match("\n(1[.].+)")!.at(1)!;
-    this.whiteMoves = [];
-    this.blackMoves = [];
-    const m = this.moves.split(/[0-9]+[.] /);
-    for (let i = 1; i < m.length; i++) {
-      const [whiteM, blackM] = m[i].split(' ').filter(s => !!s.trim().length);
-      if (!(this.result === "1-0" && i === m.length - 1)) {
-        this.blackMoves.push(blackM);
+    try{
+      this.pgn = pgn;
+      this.event = pgnProperty("Event", pgn);
+      this.site = pgnProperty("Site", pgn);
+      this.white = pgnProperty("White", pgn);
+      this.black = pgnProperty("Black", pgn);
+      this.result = pgnProperty("Result", pgn) as GameResult;
+      this.termination = pgnProperty("Termination", pgn) as Termination;
+      const match =pgn.match("\n(1[.].+)"); 
+      if(match)
+      this.moves = match.at(1)!;
+      else{
+        this.moves = ""
       }
-      this.whiteMoves.push(whiteM);
-
+      this.whiteMoves = [];
+      this.blackMoves = [];
+      const m = this.moves.split(/[0-9]+[.] /);
+      for (let i = 1; i < m.length; i++) {
+        const [whiteM, blackM] = m[i].split(' ').filter(s => !!s.trim().length);
+        if (!(this.result === "1-0" && i === m.length - 1)) {
+          this.blackMoves.push(blackM);
+        }
+        this.whiteMoves.push(whiteM);
+  
+      }
+    }catch(e){
+        throw new Error(`threw inside game constructor. pgn: ${pgn}. e: ${e}`)
     }
+    
   }
 
   get didWin(): boolean {
