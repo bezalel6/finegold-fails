@@ -3,10 +3,17 @@ import { Game } from "./GameParser";
 import { Box, Card, Divider, Typography } from "@mui/material";
 import { Rarity } from "./Rarity";
 import { CategoryProps, createdChildren, getIcon } from "./App";
+import { getState } from "./Scales";
 
 export function Category({ category }: CategoryProps) {
     const [arr, setArr] = useState(new Array<React.ReactNode>());
     function createChild(game: Game) {
+        const state = getState();
+        if(category.kind==="win"){
+            state.addToRight();
+        }else{
+            state.addToLeft();
+        }
         const ret = <a href={game.site} target={"_blank"} key={createdChildren.length} className={"failContainer"} rel="noreferrer">{getIcon(category)} </a>;
         createdChildren.push(ret);
         return ret;

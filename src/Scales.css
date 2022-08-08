@@ -63,12 +63,12 @@
     /* border: 2px solid saddlebrown; */
     /* width: max-content; */
     /* height: 600px; */
-    /* flex-direction: column-reverse; */
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
 }
 .child {
-    flex-grow: 1;
+    flex: 0 0 auto;
+    /* flex-grow: 1; */
     position: relative;
     width: 50px;
     z-index: 1;

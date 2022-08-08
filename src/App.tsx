@@ -16,7 +16,7 @@ import { allCategories, CategoryInterface, outerCategoriesArr } from "./Categori
 import { Ctrl } from "./Auth";
 import { TransitionProps } from "@mui/material/transitions";
 import { fontSize } from "@mui/system";
-import { Scales } from "./Scales";
+import Scales from "./Scales";
 import { LoginComponent } from "./LoginComponent";
 import { Category } from "./Category";
 let numAnalyzed: number, setNumAnalyzed: (num: number) => any;
@@ -55,6 +55,7 @@ function App() {
     console.log("initing")
     ct.init()
   }, [])
+
   return (
     <>
       <CssBaseline />
@@ -103,6 +104,7 @@ function App() {
   );
 
 }
+
 
 export const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {

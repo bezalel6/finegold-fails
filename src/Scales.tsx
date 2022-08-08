@@ -1,58 +1,61 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Button, Typography } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import { createDocumentRegistry } from "typescript";
 import "./Scales.css"
-export function Scales() {
+
+export default forwardRef((_, ref) => {
     useEffect(() => {
         init();
         return () => destroyer.forEach(a => a())
     }, []);
-    const add = 50;
-    const rightRef = useRef<HTMLDivElement>(null);
-    useLayoutEffect(()=>{
-        rightRef.current!.onclick = async (e)=>{
-state.addToRight(add)
-        }
-        rightRef.current!.oncontextmenu = (e)=>{
 
-                state.addToLeft(add)
-                return false;
+    const add = 4;
+    const rightRef = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        rightRef.current!.onclick = async (e) => {
+            scalesState.addToRight(add)
+        }
+        rightRef.current!.oncontextmenu = (e) => {
+
+            scalesState.addToLeft(add)
+            return false;
         }
     });
     [nums, setNums] = useState({ right: 0, left: 0 })
-    return(    <div className="wrapper">
-        <div id="container"  ref={rightRef}  className="scales-container">
-        <div className="skeleton-container" id="skeleton">
-            <img src="Scales/skeleton.png" className="skeleton" alt="" />
-            <div id="right-container" className="scale-container">
-                <img src="Scales/scale.png"  id="right" className="scale right" alt="" />
-                <div id="right-contained" className="scales-items"></div>
-                <Typography className="scale-num" variant="h3">{nums.right}</Typography>
+    return (<div className="wrapper">
+        <div id="container" ref={rightRef} className="scales-container">
+            <div className="skeleton-container" id="skeleton">
+                <img src="Scales/skeleton.png" className="skeleton" alt="" />
+                <div id="right-container" className="scale-container">
+                    <img src="Scales/scale.png" id="right" className="scale right" alt="" />
+                    <div id="right-contained" className="scales-items"></div>
+                    <Typography className="scale-num" variant="h3">{nums.right}</Typography>
+                </div>
+                <div id="left-container" className="scale-container">
+                    <img src="Scales/scale.png" id="left" className="scale left" alt="" />
+                    <div id="left-contained" className="scales-items"></div>
+                    <Typography className="scale-num" variant="h3">{nums.left}</Typography>
+                </div>
             </div>
-            <div id="left-container"  className="scale-container">
-                <img src="Scales/scale.png" id="left" className="scale left" alt="" />
-                <div id="left-contained" className="scales-items"></div>
-                <Typography className="scale-num" variant="h3">{nums.left}</Typography>
-            </div>
+            <img src="Scales/poll.png" className="poll" id="poll" alt="" />
         </div>
-        <img src="Scales/poll.png" className="poll" id="poll" alt="" />
-    </div>
-    <h1>hello</h1>
     </div>)
-}
+})
 let nums, setNums: any;
-let state: ScalesState;
+let scalesState: ScalesState;
 function init() {
 
-    state = new ScalesState()
+    scalesState = new ScalesState()
     // setTimeout(() => {
     //     state.addToLeft(60)
     // }, 5000)
     // state.idle()
 
 }
-
+export function getState(){
+    return scalesState;
+}
 const destroyer: (() => void)[] = [];
 function animate(func: () => void, ms: number = 500) {
     const interval = setInterval(func, ms)
@@ -186,7 +189,7 @@ class MyElement<T extends HTMLElement = HTMLImageElement> {
             this.container.element.style.transform = this.transform;
         }
         else { this.element.style.transform = this.transform; }
-        this.listeners.get(operation.type)?.forEach(l=>l(operation))
+        this.listeners.get(operation.type)?.forEach(l => l(operation))
 
     }
 
