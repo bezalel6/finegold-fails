@@ -9,7 +9,7 @@
   --scales-width: ;
 }
 * {
-  cursor: url("https://developer.mozilla.org/en-US/docs/Web/CSS/cursor/grab.gif"), auto;
+  /* cursor: url("https://developer.mozilla.org/en-US/docs/Web/CSS/cursor/grab.gif"), auto; */
 }
 main {
   display: block;
@@ -29,25 +29,45 @@ main {
   margin-top: 10px;
 }
 .category {
-  min-width: 400px;
-  max-width: 400px;
+  width: 200px;
+  max-width: 200px;
   /* margin-left: 10px; */
-  padding: 20px;
+  padding: 10px;
   /* font-size: 30px; */
   text-align: center;
+}
+.category > * {
+  padding: 10px;
 }
 .interest {
   text-decoration: underline;
   cursor: pointer;
 }
 .grid {
-  display: grid;
+  border: 1px black solid;
+  flex-wrap: wrap;
+  flex-direction: row;
+  display: inline-flex;
+  justify-content: center;
+  /* width: 100%; */
   /* grid-template-columns: auto auto; */
-  grid-template-areas: "header header";
+  /* grid-template-areas: "header header"; */
   align-items: start;
 }
+.flexi {
+  /* flex:1 0 auto; */
+  /* width:100%; */
+}
+.fullW {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  /* min-width: ; */
+  /* min-width: 90vw; */
+  /* width: 90%; */
+}
 .grid-header {
-  grid-area: header;
+  flex: 1 0 100%;
 }
 
 .outer-category {
@@ -69,7 +89,15 @@ main {
 }
 .fail {
 }
-
+.fails[data-size="normal"] {
+  --icon-size: 25px;
+}
+.fails[data-size="small"] * {
+  --icon-size: 10px;
+}
+.fails[data-size="xsmall"] * {
+  --icon-size: 1px;
+}
 .rarity {
   display: inline-block;
   margin-left: 10px !important;

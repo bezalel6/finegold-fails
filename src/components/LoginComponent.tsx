@@ -6,7 +6,7 @@ import {
     DialogTitle, IconButton
 } from "@mui/material";
 import { Ctrl } from "./Auth";
-import { Transition } from "./App";
+import { Transition } from "../App";
 
 export function LoginComponent({ ct }: { ct: Ctrl; }) {
     const [open, setOpen] = React.useState(false);
@@ -22,7 +22,6 @@ export function LoginComponent({ ct }: { ct: Ctrl; }) {
     const [loggedIn, setLoggedIn] = useState(false);
     function redraw() {
         setLoggedIn(!!ct.accessContext);
-
     }
     ct.redraw = redraw;
     return (

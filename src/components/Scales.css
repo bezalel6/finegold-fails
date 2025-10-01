@@ -1,10 +1,10 @@
 .scales-container {
     position: relative;
-    display: inline-block;
+    /* display: none; */
     height: 500px;
-    /* left:  50vw; */
-    /* right: 50%; */
-    /* width: 50%; */
+    left:  50vw;
+    right: 50%;
+    width: 50%;
 }
 .skeleton-container{
     transition: transform .5s cubic-bezier(.08,.6,.31,1.8);

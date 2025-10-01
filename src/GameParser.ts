@@ -1,17 +1,29 @@
-import { TurnRightSharp } from "@mui/icons-material";
 import { analyzedGame } from "./App";
-import { drew, f3, f3ConfuseOnTime, f3Drew, f3Mate, f3StillWon, lost, opponentPlayedF3, opponentPlayedF3Lost, opponentPlayedF3Won, won } from "./Categories";
-const max = 500;
-let myUsername: string
-export async function analyze(username: string, accessToken: string | undefined) {
-
-
-
-  const userDetailsF = await fetch("https://lichess.org/api/user/" + username)
+import {
+  drew,
+  f3,
+  f3ConfuseOnTime,
+  f3Drew,
+  f3Mate,
+  f3StillWon,
+  lost,
+  opponentPlayedF3,
+  opponentPlayedF3Lost,
+  opponentPlayedF3Won,
+  won,
+} from "./Categories";
+import { initializeBar } from "./components/ProgressBar";
+const max = 0;
+let myUsername: string;
+export async function analyze(
+  username: string,
+  accessToken: string | undefined
+) {
+  const userDetailsF = await fetch("https://lichess.org/api/user/" + username);
   const userDetails: { count: { rated: number } } = await userDetailsF.json();
 
-  console.log(userDetails.count.rated);
-
+  console.log("games num", userDetails.count.rated);
+  initializeBar(userDetails.count.rated);
   myUsername = username;
   let headers = {
     // Authorization: "Bearer " + process.env.REACT_APP_lichessToken,
@@ -21,11 +33,14 @@ export async function analyze(username: string, accessToken: string | undefined)
   if (accessToken) {
     headers = {
       ...headers,
-      Authorization: "Bearer " + accessToken
-    }
+      Authorization: "Bearer " + accessToken,
+    };
   }
-
-  fetch(`https://lichess.org/api/games/user/${username}?max=${max}&rated=true`, {
+  let url = `https://lichess.org/api/games/user/${username}?rated=true`;
+  if (max) {
+    url += `&max=${max}`;
+  }
+  fetch(url, {
     headers,
     mode: "cors",
   }).then((res) => {
@@ -56,19 +71,19 @@ function game(gameStr: string) {
   analyzedGame();
   const dynamicF3: DynamicMove = { row: 3, col: "f" };
   if (game.didIPlay(dynamicF3)) {
-
-    f3.addToCategory!(game)
-    if (game.myMoves[game.myMoves.length - 1] === game.convertDynamic(dynamicF3, myUsername)) {
+    f3.addToCategory!(game);
+    if (
+      game.myMoves[game.myMoves.length - 1] ===
+      game.convertDynamic(dynamicF3, myUsername)
+    ) {
       if (game.didLose) {
-
       } else if (game.termination === "Time forfeit") {
-        f3ConfuseOnTime.addToCategory!(game)
+        f3ConfuseOnTime.addToCategory!(game);
       } else {
         f3Mate.addToCategory!(game);
       }
     }
     if (game.didWin) {
-
       f3StillWon.addToCategory!(game);
     }
     if (game.didDraw) {
@@ -87,7 +102,8 @@ function game(gameStr: string) {
     case "i drew": {
       drew.addToCategory!(game);
       break;
-    } case "i lost": {
+    }
+    case "i lost": {
       lost.addToCategory!(game);
       break;
     }
@@ -95,7 +111,6 @@ function game(gameStr: string) {
       won.addToCategory!(game);
       break;
     }
-
   }
 }
 export class Game {
@@ -108,9 +123,9 @@ export class Game {
   moves: string;
   whiteMoves: string[];
   blackMoves: string[];
-  pgn:string;
+  pgn: string;
   constructor(pgn: string) {
-    try{
+    try {
       this.pgn = pgn;
       this.event = pgnProperty("Event", pgn);
       this.site = pgnProperty("Site", pgn);
@@ -118,31 +133,33 @@ export class Game {
       this.black = pgnProperty("Black", pgn);
       this.result = pgnProperty("Result", pgn) as GameResult;
       this.termination = pgnProperty("Termination", pgn) as Termination;
-      const match =pgn.match("\n(1[.].+)"); 
-      if(match)
-      this.moves = match.at(1)!;
-      else{
-        this.moves = ""
+      const match = pgn.match("\n(1[.].+)");
+      if (match) this.moves = match.at(1)!;
+      else {
+        this.moves = "";
       }
       this.whiteMoves = [];
       this.blackMoves = [];
       const m = this.moves.split(/[0-9]+[.] /);
       for (let i = 1; i < m.length; i++) {
-        const [whiteM, blackM] = m[i].split(' ').filter(s => !!s.trim().length);
+        const [whiteM, blackM] = m[i]
+          .split(" ")
+          .filter((s) => !!s.trim().length);
         if (!(this.result === "1-0" && i === m.length - 1)) {
           this.blackMoves.push(blackM);
         }
         this.whiteMoves.push(whiteM);
-  
       }
-    }catch(e){
-        throw new Error(`threw inside game constructor. pgn: ${pgn}. e: ${e}`)
+    } catch (e) {
+      throw new Error(`threw inside game constructor. pgn: ${pgn}. e: ${e}`);
     }
-    
   }
 
   get didWin(): boolean {
-    return (this.result === "1-0" && this.isWhite) || (this.result === "0-1" && !this.isWhite)
+    return (
+      (this.result === "1-0" && this.isWhite) ||
+      (this.result === "0-1" && !this.isWhite)
+    );
   }
   get didDraw(): boolean {
     return this.result === "1/2-1/2";
@@ -172,7 +189,11 @@ export class Game {
       return this.didPlay(move, this.myMoves, exact);
     }
 
-    return this.didPlay(this.convertDynamic(move, myUsername), this.myMoves, exact);
+    return this.didPlay(
+      this.convertDynamic(move, myUsername),
+      this.myMoves,
+      exact
+    );
   }
 
   didOpponentPlay(move: string | DynamicMove, exact: boolean = false) {
@@ -181,22 +202,26 @@ export class Game {
       return this.didPlay(move, this.opponentMoves, exact);
     }
 
-    return this.didPlay(this.convertDynamic(move, this.opponentUsername), this.opponentMoves, exact);
+    return this.didPlay(
+      this.convertDynamic(move, this.opponentUsername),
+      this.opponentMoves,
+      exact
+    );
   }
 
   didPlay(move: string, moves: string[], exact: boolean) {
-    return moves.find(m => (exact ? m === move : m.includes(move)))
+    return moves.find((m) => (exact ? m === move : m.includes(move)));
   }
   convertDynamic(move: DynamicMove, player: string) {
     if (player === this.white) {
       return move.col + "" + move.row;
     }
-    const a = Math.abs(move.row - 8) + 1
+    const a = Math.abs(move.row - 8) + 1;
     return move.col + "" + a;
   }
 }
 
-type Column = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h"
+type Column = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h";
 type Row = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 //will adjust to fit player
 interface DynamicMove {
